@@ -253,11 +253,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   Expanded(
                                     child: FFButtonWidget(
                                       onPressed: () async {
-                                        if (formKey.currentState == null ||
-                                            !formKey.currentState!.validate()) {
-                                          return;
-                                        }
-
                                         await Navigator.push(
                                           context,
                                           PageTransition(
