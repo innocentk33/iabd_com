@@ -305,6 +305,14 @@ class _AddProducteurWidgetState extends State<AddProducteurWidget> {
                                               },
                                               currentTime: getCurrentTimestamp,
                                               minTime: DateTime(0, 0, 0),
+                                              locale:
+                                                  LocaleType.values.firstWhere(
+                                                (l) =>
+                                                    l.name ==
+                                                    FFLocalizations.of(context)
+                                                        .languageCode,
+                                                orElse: () => LocaleType.en,
+                                              ),
                                             );
                                           },
                                           child: Row(
