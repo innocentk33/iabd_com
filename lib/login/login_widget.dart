@@ -1,3 +1,4 @@
+import '../commercial_home/commercial_home_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
@@ -152,17 +153,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                         style: FlutterFlowTheme.of(context)
                                             .bodyText1,
                                         keyboardType: TextInputType.phone,
-                                        validator: (val) {
-                                          if (val == null || val.isEmpty) {
-                                            return 'Champ obligatoire';
-                                          }
-
-                                          if (val.length < 8) {
-                                            return '8 chiffre minimum';
-                                          }
-
-                                          return null;
-                                        },
                                       ),
                                     ),
                                   ),
@@ -268,17 +258,17 @@ class _LoginWidgetState extends State<LoginWidget> {
                                           return;
                                         }
 
-                                        context.pushNamed(
-                                          'CommercialHome',
-                                          extra: <String, dynamic>{
-                                            kTransitionInfoKey: TransitionInfo(
-                                              hasTransition: true,
-                                              transitionType: PageTransitionType
-                                                  .rightToLeft,
-                                              duration:
-                                                  Duration(milliseconds: 300),
-                                            ),
-                                          },
+                                        await Navigator.push(
+                                          context,
+                                          PageTransition(
+                                            type:
+                                                PageTransitionType.rightToLeft,
+                                            duration:
+                                                Duration(milliseconds: 300),
+                                            reverseDuration:
+                                                Duration(milliseconds: 300),
+                                            child: CommercialHomeWidget(),
+                                          ),
                                         );
                                       },
                                       text: 'Connexion',

@@ -4,7 +4,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/internationalization.dart';
-import 'flutter_flow/nav/nav.dart';
 import 'index.dart';
 
 void main() async {
@@ -28,14 +27,14 @@ class _MyAppState extends State<MyApp> {
   Locale? _locale;
   ThemeMode _themeMode = ThemeMode.system;
 
-  late AppStateNotifier _appStateNotifier;
-  late GoRouter _router;
+  bool displaySplashImage = true;
 
   @override
   void initState() {
     super.initState();
-    _appStateNotifier = AppStateNotifier();
-    _router = createRouter(_appStateNotifier);
+
+    Future.delayed(
+        Duration(seconds: 1), () => setState(() => displaySplashImage = false));
   }
 
   void setLocale(String language) =>
@@ -46,7 +45,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return MaterialApp(
       title: 'iabd-com',
       localizationsDelegates: [
         FFLocalizationsDelegate(),
@@ -60,8 +59,17 @@ class _MyAppState extends State<MyApp> {
       ],
       theme: ThemeData(brightness: Brightness.light),
       themeMode: _themeMode,
-      routeInformationParser: _router.routeInformationParser,
-      routerDelegate: _router.routerDelegate,
+      home: displaySplashImage
+          ? Container(
+              color: FlutterFlowTheme.of(context).primaryBtnText,
+              child: Builder(
+                builder: (context) => Image.asset(
+                  'assets/images/signature-mail-IABD-Sarl.png',
+                  fit: BoxFit.none,
+                ),
+              ),
+            )
+          : LoginWidget(),
     );
   }
 }

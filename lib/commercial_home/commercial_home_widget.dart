@@ -1,9 +1,9 @@
+import '../add_producteur/add_producteur_widget.dart';
 import '../flutter_flow/flutter_flow_animations.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 
 class CommercialHomeWidget extends StatefulWidget {
   const CommercialHomeWidget({Key? key}) : super(key: key);
@@ -213,74 +213,7 @@ class _CommercialHomeWidgetState extends State<CommercialHomeWidget>
         opacity: 1,
       ),
     ),
-    'containerOnPageLoadAnimation7': AnimationInfo(
-      trigger: AnimationTrigger.onPageLoad,
-      duration: 600,
-      delay: 1600,
-      hideBeforeAnimating: true,
-      fadeIn: true,
-      initialState: AnimationState(
-        offset: Offset(0, 90),
-        scale: 1,
-        opacity: 0,
-      ),
-      finalState: AnimationState(
-        offset: Offset(0, 0),
-        scale: 1,
-        opacity: 1,
-      ),
-    ),
     'textOnPageLoadAnimation7': AnimationInfo(
-      trigger: AnimationTrigger.onPageLoad,
-      duration: 600,
-      delay: 200,
-      hideBeforeAnimating: true,
-      fadeIn: true,
-      initialState: AnimationState(
-        offset: Offset(40, 0),
-        scale: 1,
-        opacity: 0,
-      ),
-      finalState: AnimationState(
-        offset: Offset(0, 0),
-        scale: 1,
-        opacity: 1,
-      ),
-    ),
-    'textOnPageLoadAnimation8': AnimationInfo(
-      trigger: AnimationTrigger.onPageLoad,
-      duration: 600,
-      delay: 180,
-      hideBeforeAnimating: true,
-      fadeIn: true,
-      initialState: AnimationState(
-        offset: Offset(20, 0),
-        scale: 1,
-        opacity: 0,
-      ),
-      finalState: AnimationState(
-        offset: Offset(0, 0),
-        scale: 1,
-        opacity: 1,
-      ),
-    ),
-    'containerOnPageLoadAnimation8': AnimationInfo(
-      trigger: AnimationTrigger.onPageLoad,
-      duration: 600,
-      hideBeforeAnimating: true,
-      fadeIn: true,
-      initialState: AnimationState(
-        offset: Offset(0, 0),
-        scale: 0.8,
-        opacity: 0,
-      ),
-      finalState: AnimationState(
-        offset: Offset(0, 0),
-        scale: 1,
-        opacity: 1,
-      ),
-    ),
-    'textOnPageLoadAnimation9': AnimationInfo(
       trigger: AnimationTrigger.onPageLoad,
       duration: 600,
       hideBeforeAnimating: true,
@@ -322,7 +255,7 @@ class _CommercialHomeWidgetState extends State<CommercialHomeWidget>
                 fontFamily: 'Poppins',
                 color: FlutterFlowTheme.of(context).primaryBtnText,
               ),
-        ).animated([animationsMap['textOnPageLoadAnimation9']!]),
+        ).animated([animationsMap['textOnPageLoadAnimation7']!]),
         actions: [],
         centerTitle: false,
         elevation: 0,
@@ -374,16 +307,15 @@ class _CommercialHomeWidgetState extends State<CommercialHomeWidget>
                                   EdgeInsetsDirectional.fromSTEB(16, 0, 0, 12),
                               child: InkWell(
                                 onTap: () async {
-                                  context.pushNamed(
-                                    'AddProducteur',
-                                    extra: <String, dynamic>{
-                                      kTransitionInfoKey: TransitionInfo(
-                                        hasTransition: true,
-                                        transitionType:
-                                            PageTransitionType.rightToLeft,
-                                        duration: Duration(milliseconds: 300),
-                                      ),
-                                    },
+                                  await Navigator.push(
+                                    context,
+                                    PageTransition(
+                                      type: PageTransitionType.rightToLeft,
+                                      duration: Duration(milliseconds: 300),
+                                      reverseDuration:
+                                          Duration(milliseconds: 300),
+                                      child: AddProducteurWidget(),
+                                    ),
                                   );
                                 },
                                 child: Container(
@@ -679,145 +611,10 @@ class _CommercialHomeWidgetState extends State<CommercialHomeWidget>
                               ],
                             ),
                           ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
-                            child: LinearPercentIndicator(
-                              percent: 0.5,
-                              width: MediaQuery.of(context).size.width * 0.82,
-                              lineHeight: 16,
-                              animation: true,
-                              progressColor:
-                                  FlutterFlowTheme.of(context).primaryColor,
-                              backgroundColor: FlutterFlowTheme.of(context)
-                                  .primaryBackground,
-                              barRadius: Radius.circular(24),
-                              padding: EdgeInsets.zero,
-                            ),
-                          ),
                         ],
                       ),
                     ),
                   ).animated([animationsMap['containerOnPageLoadAnimation5']!]),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 16),
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 4,
-                          color: Color(0x1F000000),
-                          offset: Offset(0, 2),
-                        )
-                      ],
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: FlutterFlowTheme.of(context).primaryBackground,
-                        width: 1,
-                      ),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(12, 8, 16, 4),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      4, 12, 12, 12),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Producteur 2',
-                                        style: FlutterFlowTheme.of(context)
-                                            .subtitle1,
-                                      ).animated([
-                                        animationsMap[
-                                            'textOnPageLoadAnimation7']!
-                                      ]),
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 4, 0, 0),
-                                        child: Text(
-                                          'Resume planteur 2',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyText2,
-                                        ).animated([
-                                          animationsMap[
-                                              'textOnPageLoadAnimation8']!
-                                        ]),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  width: 60,
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryBackground,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  alignment: AlignmentDirectional(0, 0),
-                                  child: Card(
-                                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                                    color:
-                                        FlutterFlowTheme.of(context).lineColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(40),
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          12, 12, 12, 12),
-                                      child: Icon(
-                                        Icons.desktop_windows_sharp,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 24,
-                                      ),
-                                    ),
-                                  ),
-                                ).animated([
-                                  animationsMap[
-                                      'containerOnPageLoadAnimation8']!
-                                ]),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
-                            child: LinearPercentIndicator(
-                              percent: 0.5,
-                              width: MediaQuery.of(context).size.width * 0.82,
-                              lineHeight: 16,
-                              animation: true,
-                              progressColor:
-                                  FlutterFlowTheme.of(context).primaryColor,
-                              backgroundColor: FlutterFlowTheme.of(context)
-                                  .primaryBackground,
-                              barRadius: Radius.circular(24),
-                              padding: EdgeInsets.zero,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ).animated([animationsMap['containerOnPageLoadAnimation7']!]),
                 ),
               ],
             ),
