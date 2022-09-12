@@ -157,6 +157,10 @@ class _LoginWidgetState extends State<LoginWidget> {
                                             return 'Champ obligatoire';
                                           }
 
+                                          if (val.length < 8) {
+                                            return '8 chiffre minimum';
+                                          }
+
                                           return null;
                                         },
                                       ),
@@ -243,17 +247,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       ),
                                       style: FlutterFlowTheme.of(context)
                                           .bodyText1,
-                                      validator: (val) {
-                                        if (val == null || val.isEmpty) {
-                                          return 'Champ obligatoire';
-                                        }
-
-                                        if (val.length < 8) {
-                                          return '8 Chiffre minimum';
-                                        }
-
-                                        return null;
-                                      },
                                     ),
                                   ),
                                 ],
