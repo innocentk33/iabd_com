@@ -1,4 +1,4 @@
-package com.iabd.commercial.iabd_com
+package commercial.iabdsarl.com
 
 import io.flutter.embedding.android.FlutterActivity
 
