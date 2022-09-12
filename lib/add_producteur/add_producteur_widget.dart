@@ -301,7 +301,10 @@ class _AddProducteurWidgetState extends State<AddProducteurWidget> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          datePicked!.toString(),
+                                          valueOrDefault<String>(
+                                            dateTimeFormat('d/M/y', datePicked),
+                                            'Date de naissance',
+                                          ),
                                           style: FlutterFlowTheme.of(context)
                                               .bodyText1,
                                         ),
