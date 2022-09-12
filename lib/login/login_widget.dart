@@ -76,7 +76,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                       ),
                       Form(
                         key: formKey,
-                        autovalidateMode: AutovalidateMode.always,
+                        autovalidateMode: AutovalidateMode.disabled,
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [
@@ -270,6 +270,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   Expanded(
                                     child: FFButtonWidget(
                                       onPressed: () async {
+                                        if (formKey.currentState == null ||
+                                            !formKey.currentState!.validate()) {
+                                          return;
+                                        }
+
                                         context.pushNamed(
                                           'CommercialHome',
                                           extra: <String, dynamic>{
