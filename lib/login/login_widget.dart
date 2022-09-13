@@ -177,7 +177,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       controller: passwordController,
                                       obscureText: !passwordVisibility,
                                       decoration: InputDecoration(
-                                        labelText: 'Password',
+                                        labelText: 'Mot de passe',
                                         labelStyle: FlutterFlowTheme.of(context)
                                             .bodyText2,
                                         hintText:
@@ -243,6 +243,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       ),
                                       style: FlutterFlowTheme.of(context)
                                           .bodyText1,
+                                      keyboardType: TextInputType.phone,
                                     ),
                                   ),
                                 ],
