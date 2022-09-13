@@ -43,7 +43,7 @@ class FFAppState {
     prefs.setString('ff_authtoken', _value);
   }
 
-  String _baseurl = 'http://51.83.47.175:7047/BC180/WS/IABD/';
+  String _baseurl = 'http://51.83.47.175:7047/BC180/WS/IABD';
   String get baseurl => _baseurl;
   set baseurl(String _value) {
     _baseurl = _value;
