@@ -38,12 +38,12 @@ class ProducteurClient {
 
       if (result == "false") {
         response.hasError = true;
-        response.message = "Impossible de creer le devis";
+        response.message = "Impossible de creer le producteur";
       }
-      response.message ="Votre devis a bien été créé";
+      response.message ="Votre producteur a bien été créé";
       print('Result $result');
     }
-    print( ' ****** REPOSE  \n ${response.message} ${response.body} **************');
+    print( ' ****** REPONSE  \n ${response.message} ${response.body} **************');
     return response;
   }
 

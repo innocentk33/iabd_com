@@ -58,20 +58,23 @@ class _AddProducteurWidgetState extends State<AddProducteurWidget> {
     showLoadingDialog(context, message: "Veuillez patienter ...");
 
 
-String dateString = '${datePicked!.year}-${datePicked!.month}-${datePicked!.day}';
+//String dateString = '${datePicked!}-${datePicked!.month}-${datePicked!.day}';
+
+String dateString = datePicked.toString();
+   dateString= dateString.substring(0,10);
     var response = await controller.createProducteur(noTelephone: numeroController!.text.trim(),nom: nomController!.text,prenoms: prenomController!.text,datenaissance: dateString,typepiece: 1,noPiece: noPieceController!.text,localite: localiteController!.text.trim(),createur: createurController!.text.trim());
     Get.back();
 
     if (response.hasError){
       showInfoDialog(context, message: response.message, positiveAction: () {
-        Get.back();
+        //Get.back();
         // Get.back();
       });
       return;
     }
     showInfoDialog(context, message: response.message, positiveAction: () {
       Get.back();
-      Get.back();
+      //Get.back();
     });
 
   }
@@ -332,12 +335,12 @@ String dateString = '${datePicked!.year}-${datePicked!.month}-${datePicked!.day}
                                             await DatePicker.showDatePicker(
                                               context,
                                               showTitleActions: true,
+
                                               onConfirm: (date) {
                                                 setState(
                                                     () => datePicked = date);
                                               },
                                               currentTime: getCurrentTimestamp,
-                                              minTime: DateTime(0, 0, 0),
                                               locale:
                                                   LocaleType.values.firstWhere(
                                                 (l) =>
@@ -356,7 +359,7 @@ String dateString = '${datePicked!.year}-${datePicked!.month}-${datePicked!.day}
                                               Text(
                                                 valueOrDefault<String>(
                                                   dateTimeFormat(
-                                                      'd/M/y', datePicked),
+                                                      'dd/MM/yyyy', datePicked),
                                                   'Date de naissance',
                                                 ),
                                                 style:
