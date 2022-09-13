@@ -1,6 +1,11 @@
-import 'package:flutter/gestures.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'controller/splash_screen_controller.dart';
+import 'controller/user_controller.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/internationalization.dart';
@@ -10,7 +15,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   FFAppState(); // Initialize FFAppState
-
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  //INitialisation du stockage
+  await GetStorage.init();
+  Get.put(UserController());
   runApp(MyApp());
 }
 
@@ -26,7 +34,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Locale? _locale;
   ThemeMode _themeMode = ThemeMode.system;
-
+  SplashScreenController controller = Get.put(SplashScreenController());
   bool displaySplashImage = true;
 
   @override
@@ -45,7 +53,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+
+    return GetMaterialApp(
       title: 'iabd-com',
       localizationsDelegates: [
         FFLocalizationsDelegate(),
@@ -71,5 +80,10 @@ class _MyAppState extends State<MyApp> {
             )
           : LoginWidget(),
     );
+  }
+
+  _getUserLogin() async {
+    String? login = await controller.getUserLogin();
+    Get.offAll((login != null ) ? const CommercialHomeWidget() : const LoginWidget());
   }
 }
