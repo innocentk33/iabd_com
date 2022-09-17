@@ -69,7 +69,7 @@ class _MyAppState extends State<MyApp> {
                 ),
               ),
             )
-          : LoginWidget(),
+          : AjoutrecentWidget(),
     );
   }
 }
