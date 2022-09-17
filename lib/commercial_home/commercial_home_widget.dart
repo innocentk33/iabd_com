@@ -1,8 +1,12 @@
 import 'package:get/get.dart';
 
 import '../add_producteur/add_producteur_widget.dart';
+
+import '../ajoutrecent/ajoutrecent_widget.dart';
+
 import '../controller/home_controller.dart';
 import '../controller/user_controller.dart';
+
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
@@ -121,11 +125,6 @@ class _CommercialHomeWidgetState extends State<CommercialHomeWidget> {
                         decoration: BoxDecoration(
                           color: FlutterFlowTheme.of(context).primaryColor,
                         ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [],
-                        ),
                       ),
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(16, 30, 0, 12),
@@ -233,29 +232,91 @@ class _CommercialHomeWidgetState extends State<CommercialHomeWidget> {
                     ],
                   ),
                 ),
-                ListView(
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  children: [
-                    ListTile(
-                      title: Text(
-                        'Lorem ipsum dolor...',
-                        style: FlutterFlowTheme.of(context).subtitle1,
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(16, 15, 0, 12),
+                  child: InkWell(
+                    onTap: () async {
+                      await Navigator.push(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.rightToLeft,
+                          duration: Duration(milliseconds: 300),
+                          reverseDuration: Duration(milliseconds: 300),
+                          child: AjoutrecentWidget(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: 120,
+                      decoration: BoxDecoration(
+                        color: FlutterFlowTheme.of(context).secondaryBackground,
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 4,
+                            color: Color(0x1F000000),
+                            offset: Offset(0, 2),
+                          )
+                        ],
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: FlutterFlowTheme.of(context).primaryBackground,
+                          width: 1,
+                        ),
                       ),
-                      subtitle: Text(
-                        'Lorem ipsum dolor...',
-                        style: FlutterFlowTheme.of(context).bodyText2,
+                      child: Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(12, 0, 12, 0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Container(
+                              width: 60,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                color: FlutterFlowTheme.of(context)
+                                    .primaryBackground,
+                                shape: BoxShape.circle,
+                              ),
+                              alignment: AlignmentDirectional(0, 0),
+                              child: Card(
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                color: Color(0xFFF15F24),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      12, 12, 12, 12),
+                                  child: Icon(
+                                    Icons.group,
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryBtnText,
+                                    size: 24,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  12, 12, 12, 12),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Producteurs',
+                                    style:
+                                        FlutterFlowTheme.of(context).bodyText2,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      trailing: Icon(
-                        Icons.arrow_forward_ios,
-                        color: Color(0xFF303030),
-                        size: 20,
-                      ),
-                      tileColor: Color(0xFFF5F5F5),
-                      dense: false,
                     ),
-                  ],
+                  ),
                 ),
               ],
             ),
