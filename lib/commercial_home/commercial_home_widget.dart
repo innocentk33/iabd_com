@@ -258,7 +258,7 @@ class _CommercialHomeWidgetState extends State<CommercialHomeWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Liste producteur récent',
+                                    'Producteurs',
                                     style:
                                         FlutterFlowTheme.of(context).bodyText2,
                                   ),
