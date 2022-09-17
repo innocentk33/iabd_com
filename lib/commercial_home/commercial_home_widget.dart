@@ -1,9 +1,18 @@
+import 'package:get/get.dart';
+
 import '../add_producteur/add_producteur_widget.dart';
+
 import '../ajoutrecent/ajoutrecent_widget.dart';
+
+import '../controller/home_controller.dart';
+import '../controller/user_controller.dart';
+
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../login/login_widget.dart';
 
 class CommercialHomeWidget extends StatefulWidget {
   const CommercialHomeWidget({Key? key}) : super(key: key);
@@ -14,6 +23,15 @@ class CommercialHomeWidget extends StatefulWidget {
 
 class _CommercialHomeWidgetState extends State<CommercialHomeWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  UserController userController = Get.put(UserController());
+  HomeController homeController = Get.put(HomeController());
+
+  @override
+  void initState() {
+    userController.getLogin();
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +47,36 @@ class _CommercialHomeWidgetState extends State<CommercialHomeWidget> {
                 color: FlutterFlowTheme.of(context).primaryBtnText,
               ),
         ),
-        actions: [],
+        actions: [
+          IconButton( onPressed: () {
+            Get.defaultDialog(
+
+                title: 'Deconnexion',
+                middleText: "Vous allez etre deconnecté",
+                radius: 5.0,
+                textConfirm: 'Oui',
+                textCancel: 'Non',
+                buttonColor: FlutterFlowTheme.of(context)
+                    .primaryColor,
+                confirmTextColor: Colors.white,
+                cancelTextColor: FlutterFlowTheme.of(context)
+                    .green,
+
+                onConfirm: (){
+                  homeController.clearSession();
+                  Get.offAll(
+                    LoginWidget(),
+                  );
+
+                }
+              /*  confirm: Row(
+                  children: [
+                    Text("La row"),
+                  ],
+                ),*/
+            );
+          }, icon: Icon(Icons.login_rounded))
+        ],
         centerTitle: false,
         elevation: 0,
       ),
@@ -56,7 +103,7 @@ class _CommercialHomeWidgetState extends State<CommercialHomeWidget> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Text(
-                          'Nom personne',
+                          'nom user',
                           style:
                               FlutterFlowTheme.of(context).bodyText1.override(
                                     fontFamily: 'Poppins',

@@ -1,3 +1,7 @@
+import 'package:get/get.dart';
+import 'package:iabd_com/models/producteur_model.dart';
+
+import '../controller/producteur_controller.dart';
 import '../flutter_flow/flutter_flow_drop_down.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -7,6 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../widgets/dialogs.dart';
+
+
 class AddProducteurWidget extends StatefulWidget {
   const AddProducteurWidget({Key? key}) : super(key: key);
 
@@ -15,6 +22,9 @@ class AddProducteurWidget extends StatefulWidget {
 }
 
 class _AddProducteurWidgetState extends State<AddProducteurWidget> {
+
+  final ProducteurController controller = Get.put(ProducteurController());
+
   TextEditingController? createurController;
 
   TextEditingController? localiteController;
@@ -41,6 +51,32 @@ class _AddProducteurWidgetState extends State<AddProducteurWidget> {
     nomController = TextEditingController();
     prenomController = TextEditingController();
     numeroController = TextEditingController();
+  }
+
+
+  void _submitProducteur() async {
+    showLoadingDialog(context, message: "Veuillez patienter ...");
+
+
+//String dateString = '${datePicked!}-${datePicked!.month}-${datePicked!.day}';
+
+String dateString = datePicked.toString();
+   dateString= dateString.substring(0,10);
+    var response = await controller.createProducteur(noTelephone: numeroController!.text.trim(),nom: nomController!.text,prenoms: prenomController!.text,datenaissance: dateString,typepiece: 1,noPiece: noPieceController!.text,localite: localiteController!.text.trim(),createur: createurController!.text.trim());
+    Get.back();
+
+    if (response.hasError){
+      showInfoDialog(context, message: response.message, positiveAction: () {
+        //Get.back();
+        // Get.back();
+      });
+      return;
+    }
+    showInfoDialog(context, message: response.message, positiveAction: () {
+      Get.back();
+      //Get.back();
+    });
+
   }
 
   @override
@@ -299,12 +335,12 @@ class _AddProducteurWidgetState extends State<AddProducteurWidget> {
                                             await DatePicker.showDatePicker(
                                               context,
                                               showTitleActions: true,
+
                                               onConfirm: (date) {
                                                 setState(
                                                     () => datePicked = date);
                                               },
                                               currentTime: getCurrentTimestamp,
-                                              minTime: DateTime(0, 0, 0),
                                               locale:
                                                   LocaleType.values.firstWhere(
                                                 (l) =>
@@ -323,7 +359,7 @@ class _AddProducteurWidgetState extends State<AddProducteurWidget> {
                                               Text(
                                                 valueOrDefault<String>(
                                                   dateTimeFormat(
-                                                      'd/M/y', datePicked),
+                                                      'dd/MM/yyyy', datePicked),
                                                   'Date de naissance',
                                                 ),
                                                 style:
@@ -533,6 +569,8 @@ class _AddProducteurWidgetState extends State<AddProducteurWidget> {
                             if (formKey.currentState == null ||
                                 !formKey.currentState!.validate()) {
                               return;
+                            }else {
+                              _submitProducteur();
                             }
                           },
                           text: 'Creer',

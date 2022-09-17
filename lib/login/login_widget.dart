@@ -1,9 +1,14 @@
+import 'package:get/get.dart';
+
 import '../commercial_home/commercial_home_widget.dart';
+import '../controller/login_controller.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
+
+import '../widgets/dialogs.dart';
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({Key? key}) : super(key: key);
@@ -14,7 +19,7 @@ class LoginWidget extends StatefulWidget {
 
 class _LoginWidgetState extends State<LoginWidget> {
   TextEditingController? emailAddressController;
-
+  LoginController controller = Get.put(LoginController());
   TextEditingController? passwordController;
 
   late bool passwordVisibility;
@@ -32,6 +37,7 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -254,20 +260,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   Expanded(
                                     child: FFButtonWidget(
                                       onPressed: () async {
-                                        await Navigator.push(
-                                          context,
-                                          PageTransition(
-                                            type:
-                                                PageTransitionType.rightToLeft,
-                                            duration:
-                                                Duration(milliseconds: 300),
-                                            reverseDuration:
-                                                Duration(milliseconds: 300),
-                                            child: CommercialHomeWidget(),
-                                          ),
-                                        );
+                                        _submitLogin();
+
                                       },
                                       text: 'Connexion',
+
                                       options: FFButtonOptions(
                                         height: 50,
                                         color: FlutterFlowTheme.of(context)
@@ -301,5 +298,41 @@ class _LoginWidgetState extends State<LoginWidget> {
         ),
       ),
     );
+  }
+
+
+  _submitLogin() async {
+
+    var login = emailAddressController?.text.trim();
+    var password = passwordController?.text.trim();
+
+
+    if (login!.isEmpty || password!.isEmpty){
+      showInfoDialog(context,message: "Numero ou mot de passe vide");
+      return;
+    }
+    showLoadingDialog(context, message: "Veuillez patienter ...");
+    CircularProgressIndicator();
+    var response = await controller.login(login: login, password: password);
+    Get.back();
+    await Navigator.push(
+      context,
+      PageTransition(
+        type:
+        PageTransitionType.rightToLeft,
+        duration:
+        Duration(milliseconds: 300),
+        reverseDuration:
+        Duration(milliseconds: 300),
+        child: CommercialHomeWidget(),
+      ),
+    );
+
+    if (response.hasError){
+      showInfoDialog(context,message: response.message);
+      return;
+    }
+    Get.offAll(const CommercialHomeWidget());
+
   }
 }
