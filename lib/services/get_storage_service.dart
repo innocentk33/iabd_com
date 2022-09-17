@@ -35,7 +35,7 @@ class GetStorageService {
     await _getStorage.remove(_epargneKey);
   }
 
-  static saveCustomerName(String customerName) async {
+  static saveUserName(String customerName) async {
     _getStorage.write(_customerNameKey, customerName);
   }
 

@@ -13,13 +13,11 @@ class LoginController extends GetxController {
   Future<ApiResponse> login({required String login, required String password}) async {
     UserClient userClient = UserClient();
     var response =await userClient.authentificate(login: login, password: password);
-    var customerNameResponse = await userClient.getCustomerName(login: login, password: password);
+    var userNameResponse = await userClient.getCustomerName(login: login);
     if (!response.hasError) {
-      //Savegarde des infos de l'utilisateur
+      //Sauvegarde des infos de l'utilisateur
       GetStorageService.saveLogin(login);
-      GetStorageService.saveCustomerName(customerNameResponse.body);
-      var customerResponse = await userClient.getCustomerNo(login: login, password: password);
-      print("CUSTOMER NO : ${customerResponse.body}");
+      GetStorageService.saveUserName(userNameResponse.body);
 
     }
     return response;
