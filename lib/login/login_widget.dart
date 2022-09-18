@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import '../commercial_home/commercial_home_widget.dart';
 import '../controller/login_controller.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
-import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -18,9 +17,9 @@ class LoginWidget extends StatefulWidget {
 }
 
 class _LoginWidgetState extends State<LoginWidget> {
-  TextEditingController? emailAddressController;
+  TextEditingController emailAddressController = TextEditingController();
   LoginController controller = Get.put(LoginController());
-  TextEditingController? passwordController;
+  TextEditingController passwordController = TextEditingController();
 
   late bool passwordVisibility;
 
@@ -303,11 +302,9 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   _submitLogin() async {
 
-    var login = emailAddressController?.text.trim();
-    var password = passwordController?.text.trim();
-
-
-    if (login!.isEmpty || password!.isEmpty){
+    var login = emailAddressController.text.trim();
+    var password = passwordController.text.trim();
+    if (login.isEmpty || password.isEmpty){
       showInfoDialog(context,message: "Numero ou mot de passe vide");
       return;
     }
@@ -315,18 +312,6 @@ class _LoginWidgetState extends State<LoginWidget> {
     CircularProgressIndicator();
     var response = await controller.login(login: login, password: password);
     Get.back();
-    await Navigator.push(
-      context,
-      PageTransition(
-        type:
-        PageTransitionType.rightToLeft,
-        duration:
-        Duration(milliseconds: 300),
-        reverseDuration:
-        Duration(milliseconds: 300),
-        child: CommercialHomeWidget(),
-      ),
-    );
 
     if (response.hasError){
       showInfoDialog(context,message: response.message);

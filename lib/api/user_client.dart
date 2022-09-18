@@ -14,6 +14,7 @@ class UserClient {
         <GetPassword xmlns="urn:microsoft-dynamics-schemas/codeunit/Fonctions">
             <myusername>$login</myusername>
             <motdepasse>$password</motdepasse>
+            <appProfil>2</appProfil>
         </GetPassword>
     </Body>
 </Envelope>
@@ -44,7 +45,8 @@ class UserClient {
   }
 
 
-  Future<ApiResponse> getCustomerName({required String login}) async {
+  Future<ApiResponse> getUserinfo({required String login}) async {
+    List<String> items = [];
     var body = '''
 <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
     <Body>
@@ -63,11 +65,20 @@ class UserClient {
     if (!response.hasError) {
       final document = XmlDocument.parse(response.body);
 
-      String result = document.findAllElements('return_value').first.text;
+  /*    String result = document.findAllElements('return_value').first.text;
         response.body = result;
-      print('Result $result');
+      print('Result $result');*/
+
+
+      var elements = document.findAllElements('return_value');
+      elements.forEach((element) {
+        items.add(element.text);
+      });
+
+      response.items = items;
     }
-    //print( ' LA REPONSE ************************ message et body et result\n ${response.message} ${response.body}');
+
+    print('items \n ${response.items} \n');
     return response;
   }
 }

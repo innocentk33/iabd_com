@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:iabd_com/models/producteur_model.dart';
+import 'package:iabd_com/services/get_storage_service.dart';
 
 import '../controller/producteur_controller.dart';
 import '../flutter_flow/flutter_flow_drop_down.dart';
@@ -24,10 +25,7 @@ class AddProducteurWidget extends StatefulWidget {
 class _AddProducteurWidgetState extends State<AddProducteurWidget> {
 
   final ProducteurController controller = Get.put(ProducteurController());
-
-  TextEditingController? createurController;
-
-  TextEditingController? localiteController;
+  final GetStorageService getStorageService = GetStorageService();
 
   TextEditingController? noPieceController;
 
@@ -45,8 +43,6 @@ class _AddProducteurWidgetState extends State<AddProducteurWidget> {
   @override
   void initState() {
     super.initState();
-    createurController = TextEditingController();
-    localiteController = TextEditingController();
     noPieceController = TextEditingController();
     nomController = TextEditingController();
     prenomController = TextEditingController();
@@ -62,7 +58,8 @@ class _AddProducteurWidgetState extends State<AddProducteurWidget> {
 
 String dateString = datePicked.toString();
    dateString= dateString.substring(0,10);
-    var response = await controller.createProducteur(noTelephone: numeroController!.text.trim(),nom: nomController!.text,prenoms: prenomController!.text,datenaissance: dateString,typepiece: 1,noPiece: noPieceController!.text,localite: localiteController!.text.trim(),createur: createurController!.text.trim());
+    var response = await controller.createProducteur(noTelephone: numeroController!.text.trim(),nom: nomController!.text,prenoms: prenomController!.text,datenaissance: dateString,typepiece: 1,noPiece: noPieceController!.text,
+        localite: GetStorageService.getUserInfo(getStorageService.userAgence),createur: GetStorageService.getUserInfo(getStorageService.userPhone));
     Get.back();
 
     if (response.hasError){
@@ -464,101 +461,28 @@ String dateString = datePicked.toString();
                               maxLines: 1,
                             ),
                           ),
+
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 16, 16, 0),
-                            child: TextFormField(
-                              controller: localiteController,
-                              obscureText: false,
-                              decoration: InputDecoration(
-                                labelText: 'Localite',
-                                hintStyle:
-                                    FlutterFlowTheme.of(context).bodyText2,
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryBackground,
-                                    width: 2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryBackground,
-                                    width: 2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color(0x00000000),
-                                    width: 2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color(0x00000000),
-                                    width: 2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                contentPadding: EdgeInsetsDirectional.fromSTEB(
-                                    20, 32, 20, 12),
-                              ),
-                              style: FlutterFlowTheme.of(context).bodyText1,
-                              textAlign: TextAlign.start,
-                              maxLines: 1,
-                            ),
+                                EdgeInsetsDirectional.fromSTEB(20, 16, 16, 0),
+                            child: Row(
+                              children: [
+                                Text('Agence : ',style: FlutterFlowTheme.of(context).bodyText1,),
+                                Text('${GetStorageService.getUserInfo(getStorageService.userAgence)}',style: FlutterFlowTheme.of(context).bodyText2,),
+                              ],
+                            )
+
                           ),
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 16, 16, 0),
-                            child: TextFormField(
-                              controller: createurController,
-                              obscureText: false,
-                              decoration: InputDecoration(
-                                labelText: 'Createur',
-                                hintStyle:
-                                    FlutterFlowTheme.of(context).bodyText2,
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryBackground,
-                                    width: 2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryBackground,
-                                    width: 2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color(0x00000000),
-                                    width: 2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color(0x00000000),
-                                    width: 2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                contentPadding: EdgeInsetsDirectional.fromSTEB(
-                                    20, 32, 20, 12),
-                              ),
-                              style: FlutterFlowTheme.of(context).bodyText1,
-                              textAlign: TextAlign.start,
-                              maxLines: 1,
-                            ),
+                                EdgeInsetsDirectional.fromSTEB(20, 16, 16, 0),
+                            child: Row(
+                              children: [
+                                Text('Createur : ',style: FlutterFlowTheme.of(context).bodyText1,),
+                                Text('${GetStorageService.getUserInfo(getStorageService.userName)}'),
+                              ],
+                            )
+
                           ),
                         ],
                       ),

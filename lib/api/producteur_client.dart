@@ -7,7 +7,8 @@ import 'soap_client.dart';
 //Classe d'implementation des services soap
 class ProducteurClient {
   SoapClient soapClient = SoapClient();
-  SoapClient<Producteur> quoteSoap = SoapClient();
+  SoapClient<Producteur> soapProducteur = SoapClient();
+
   Future<ApiResponse> createProducteur( { required String noTelephone,required String nom,required String prenoms,required String datenaissance,required int typepiece,required String noPiece,required String localite,required String createur}) async {
     var body = '''
               <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
@@ -36,15 +37,53 @@ class ProducteurClient {
 
       String result = document.findAllElements('return_value').first.text;
 
-      if (result == "false") {
+      if (result == "NONVALIDE") {
         response.hasError = true;
-        response.message = "Impossible de creer le producteur";
+        response.message = "Element non valide";
+      }else{
+        response.message ="Votre producteur a bien été créé";
+        print('Result $result');
       }
-      response.message ="Votre producteur a bien été créé";
-      print('Result $result');
+
     }
-    print( ' ****** REPONSE  \n ${response.message} ${response.body} **************');
+    print( ' ****** REPONSE : ${response.message} \nbody : ${response.body} **************');
     return response;
   }
+
+  Future<ApiResponse<Producteur>> getProducteurs() async {
+    List<Producteur> items = [];
+
+    var body = '''
+<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+    <Body>
+        <ReadMultiple xmlns="urn:microsoft-dynamics-schemas/page/producteurlist">
+                   <setSize>20</setSize>
+        </ReadMultiple>
+    </Body>
+</Envelope>
+    ''';
+
+    var response = await soapProducteur.post(
+        url: "Page/producteurlist",
+        action: 'urn:microsoft-dynamics-schemas/page/producteurlist',
+        body: body);
+
+    if (!response.hasError) {
+      final document = XmlDocument.parse(response.body);
+
+      var elements = document.findAllElements('ProducteurList');
+      elements.forEach((element) {
+        items.add(Producteur.fromXml(element));
+      });
+
+      response.items = items;
+    }
+
+    return response;
+  }
+
+
+
+
 
 }

@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
+import 'package:iabd_com/services/get_storage_service.dart';
 
 import '../add_producteur/add_producteur_widget.dart';
 
 import '../ajoutrecent/ajoutrecent_widget.dart';
 
+import '../api/user_client.dart';
 import '../controller/home_controller.dart';
 import '../controller/user_controller.dart';
 
@@ -25,7 +27,8 @@ class _CommercialHomeWidgetState extends State<CommercialHomeWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   UserController userController = Get.put(UserController());
   HomeController homeController = Get.put(HomeController());
-
+  UserClient userClient = UserClient();
+  GetStorageService getStorageService = GetStorageService();
   @override
   void initState() {
     userController.getLogin();
@@ -35,6 +38,12 @@ class _CommercialHomeWidgetState extends State<CommercialHomeWidget> {
 
   @override
   Widget build(BuildContext context) {
+
+
+    getUserInfo (){
+      userClient.getUserinfo(login: GetStorageService.getPhoneNumber());
+    }
+
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
@@ -103,7 +112,7 @@ class _CommercialHomeWidgetState extends State<CommercialHomeWidget> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Text(
-                          'nom user',
+                          '${GetStorageService.getUserInfo(getStorageService.userName)}',
                           style:
                               FlutterFlowTheme.of(context).bodyText1.override(
                                     fontFamily: 'Poppins',
@@ -318,6 +327,7 @@ class _CommercialHomeWidgetState extends State<CommercialHomeWidget> {
                     ),
                   ),
                 ),
+
               ],
             ),
           ),
