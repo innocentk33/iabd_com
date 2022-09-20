@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
+import 'package:iabd_com/controller/localite_controller.dart';
 import 'package:iabd_com/models/producteur_model.dart';
 import 'package:iabd_com/services/get_storage_service.dart';
 
@@ -12,7 +15,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../models/localite_model.dart';
 import '../widgets/dialogs.dart';
+import '../widgets/error_message.dart';
 
 
 class AddProducteurWidget extends StatefulWidget {
@@ -26,6 +31,7 @@ class _AddProducteurWidgetState extends State<AddProducteurWidget> {
 
   final ProducteurController controller = Get.put(ProducteurController());
   final GetStorageService getStorageService = GetStorageService();
+  final LocaliteController localiteController = Get.put(LocaliteController());
 
   TextEditingController? noPieceController;
 
@@ -37,8 +43,18 @@ class _AddProducteurWidgetState extends State<AddProducteurWidget> {
 
   DateTime? datePicked;
   String? pieceSelectValue;
+  String? localiteSelectValue;
+  Localite? selectedLocalite;
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  List<Localite> localites = [];
+  Future<List<Localite>>? localiteList;
+  List list = [];
+  Future<List<Localite>> _getListLocalite() async {
+    var response = await localiteController.getLocaliteList(GetStorageService.getUserInfo(getStorageService.userAgence));
+    return response.items;
+  }
+
 
   @override
   void initState() {
@@ -47,6 +63,10 @@ class _AddProducteurWidgetState extends State<AddProducteurWidget> {
     nomController = TextEditingController();
     prenomController = TextEditingController();
     numeroController = TextEditingController();
+    localiteList = _getListLocalite();
+
+
+
   }
 
 
@@ -59,7 +79,7 @@ class _AddProducteurWidgetState extends State<AddProducteurWidget> {
 String dateString = datePicked.toString();
    dateString= dateString.substring(0,10);
     var response = await controller.createProducteur(noTelephone: numeroController!.text.trim(),nom: nomController!.text,prenoms: prenomController!.text,datenaissance: dateString,typepiece: 1,noPiece: noPieceController!.text,
-        localite: GetStorageService.getUserInfo(getStorageService.userAgence),createur: GetStorageService.getUserInfo(getStorageService.userPhone));
+        localite: localiteSelectValue!,createur: GetStorageService.getUserInfo(getStorageService.userPhone));
     Get.back();
 
     if (response.hasError){
@@ -413,6 +433,54 @@ String dateString = datePicked.toString();
                               hidesUnderline: true,
                             ),
                           ),
+
+                          Card(
+                            elevation: 2,
+                            margin: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                            child: Container(
+
+                              decoration: BoxDecoration(
+
+                              ),
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                              width: double.infinity,
+                              height: 60,
+                              child:
+                              FutureBuilder(
+                                future:localiteList,
+                                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                                  return snapshot.hasData
+                                      ? Container(
+                                    child: DropdownButton<String>(
+                                      hint: Text(localiteSelectValue ?? 'Localité',style: FlutterFlowTheme.of(context).bodyText1,),
+                                      style: FlutterFlowTheme.of(context).bodyText1,
+
+                                      isExpanded: true,
+                                      items: snapshot.data.map<DropdownMenuItem<String>>((item) {
+                                        return DropdownMenuItem<String>(
+
+                                          value: item.code,
+                                          child: Text(item.code,style: FlutterFlowTheme.of(context).bodyText1,),
+                                        );
+                                      }).toList(),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          localiteSelectValue = value;
+                                          print(value);
+                                        });
+                                      },
+                                    ),
+                                  )
+                                      : Container(
+                                    child: Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
                           Padding(
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(16, 16, 16, 0),
@@ -460,29 +528,6 @@ String dateString = datePicked.toString();
                               textAlign: TextAlign.start,
                               maxLines: 1,
                             ),
-                          ),
-
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(20, 16, 16, 0),
-                            child: Row(
-                              children: [
-                                Text('Agence : ',style: FlutterFlowTheme.of(context).bodyText1,),
-                                Text('${GetStorageService.getUserInfo(getStorageService.userAgence)}',style: FlutterFlowTheme.of(context).bodyText2,),
-                              ],
-                            )
-
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(20, 16, 16, 0),
-                            child: Row(
-                              children: [
-                                Text('Createur : ',style: FlutterFlowTheme.of(context).bodyText1,),
-                                Text('${GetStorageService.getUserInfo(getStorageService.userName)}'),
-                              ],
-                            )
-
                           ),
                         ],
                       ),

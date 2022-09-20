@@ -50,14 +50,18 @@ class ProducteurClient {
     return response;
   }
 
-  Future<ApiResponse<Producteur>> getProducteurs() async {
+  Future<ApiResponse<Producteur>> getProducteurs({required login}) async {
     List<Producteur> items = [];
 
     var body = '''
 <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
     <Body>
         <ReadMultiple xmlns="urn:microsoft-dynamics-schemas/page/producteurlist">
-                   <setSize>20</setSize>
+            <filter>
+                <Field>Username_creation</Field>
+                <Criteria>$login</Criteria>
+            </filter>
+            <setSize>20</setSize>
         </ReadMultiple>
     </Body>
 </Envelope>

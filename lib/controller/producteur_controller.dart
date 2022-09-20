@@ -21,9 +21,9 @@ class ProducteurController extends GetxController{
     return response;
   }
   
-  getProducteurList() async {
+  getProducteurList(String login) async {
     _isLoading.value = true;
-    _apiResponse = await producteurClient.getProducteurs();
+    _apiResponse = await producteurClient.getProducteurs(login: login);
     _isLoading.value = false;
     return _apiResponse;
   }

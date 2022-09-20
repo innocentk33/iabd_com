@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:iabd_com/controller/producteur_controller.dart';
 import 'package:iabd_com/models/producteur_model.dart';
+import 'package:iabd_com/services/get_storage_service.dart';
 
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -23,8 +24,9 @@ class _AjoutrecentWidgetState extends State<AjoutrecentWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   ProducteurController producteurController = Get.put(ProducteurController());
   Future<List<Producteur>>? producteurs;
+  GetStorageService getStorageService = GetStorageService();
   Future<List<Producteur>> _getListProducteur() async {
-    var response = await producteurController.getProducteurList();
+    var response = await producteurController.getProducteurList(GetStorageService.getUserInfo(getStorageService.userPhone));
     return response.items;
   }
   @override
@@ -56,7 +58,7 @@ class _AjoutrecentWidgetState extends State<AjoutrecentWidget> {
           },
         ),
         title: Text(
-          'Ajout récent',
+          'Liste des producteurs',
           style: FlutterFlowTheme.of(context).bodyText2.override(
                 fontFamily: 'Poppins',
                 color: FlutterFlowTheme.of(context).primaryBtnText,
@@ -70,7 +72,8 @@ class _AjoutrecentWidgetState extends State<AjoutrecentWidget> {
       body: SafeArea(
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
-          child:  FutureBuilder<List<Producteur>>(
+          child:
+          FutureBuilder<List<Producteur>>(
             future: producteurs,
             builder: (context, snapshot) {
               print('THE SANPSHOT $snapshot');
