@@ -17,6 +17,7 @@ class ProducteurController extends GetxController{
     var response =await producteurClientClient.createProducteur(noTelephone:noTelephone,nom: nom,prenoms: prenoms,datenaissance: datenaissance,typepiece: typepiece,noPiece: noPiece,localite: localite,createur: createur);
     if (!response.hasError) {
       print(response.message);
+
     }
     return response;
   }

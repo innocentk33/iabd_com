@@ -1,6 +1,7 @@
 import 'package:iabd_com/models/localite_model.dart';
 import 'package:xml/xml.dart';
 
+import '../constant/const.dart';
 import '../models/api_response.dart';
 import '../models/producteur_model.dart';
 import 'soap_client.dart';
@@ -47,6 +48,9 @@ class LocaliteClient {
       response.items = items;
       print('**ITEMS*** ${response.items}');
       print("LA RESPONSE ${response.body}");
+    }else{
+      print('Erreur :\n $response.body');
+      response.body =errorServerNotFound;
     }
 
     return response;

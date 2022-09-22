@@ -49,11 +49,14 @@ class _AddProducteurWidgetState extends State<AddProducteurWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   List<Localite> localites = [];
   Future<List<Localite>>? localiteList;
-  List list = [];
+  List<String> pieceIdentitelist = ['CNI','Attestation','Extrait','Passeport','Autre'];
+
   Future<List<Localite>> _getListLocalite() async {
-    var response = await localiteController.getLocaliteList(GetStorageService.getUserInfo(getStorageService.userAgence));
+    var response = await localiteController.getLocaliteList(
+        GetStorageService.getUserInfo(getStorageService.userAgence));
     return response.items;
   }
+
 
 
   @override
@@ -75,14 +78,25 @@ class _AddProducteurWidgetState extends State<AddProducteurWidget> {
 
 
 //String dateString = '${datePicked!}-${datePicked!.month}-${datePicked!.day}';
+    //TODO: Arranger cette mauvaise maniere de recuperer les pieces identité
+    //Cni,Attestation,Extrait,Passeport,Autre
 
-String dateString = datePicked.toString();
-   dateString= dateString.substring(0,10);
-    var response = await controller.createProducteur(noTelephone: numeroController!.text.trim(),nom: nomController!.text,prenoms: prenomController!.text,datenaissance: dateString,typepiece: 1,noPiece: noPieceController!.text,
-        localite: localiteSelectValue!,createur: GetStorageService.getUserInfo(getStorageService.userPhone));
+
+
+    String dateString = datePicked.toString();
+    dateString = dateString.substring(0, 10);
+    var response = await controller.createProducteur(
+        noTelephone: numeroController!.text.trim(),
+        nom: nomController!.text,
+        prenoms: prenomController!.text,
+        datenaissance: dateString,
+        typepiece: pieceIdentitelist.indexOf(pieceSelectValue!),
+        noPiece: noPieceController!.text,
+        localite: localiteSelectValue!,
+        createur: GetStorageService.getUserInfo(getStorageService.userPhone));
     Get.back();
 
-    if (response.hasError){
+    if (response.hasError) {
       showInfoDialog(context, message: response.message, positiveAction: () {
         //Get.back();
         // Get.back();
@@ -93,7 +107,6 @@ String dateString = datePicked.toString();
       Get.back();
       //Get.back();
     });
-
   }
 
   @override
@@ -204,7 +217,7 @@ String dateString = datePicked.toString();
 
                                 if (!RegExp(kTextValidatorUsernameRegex)
                                     .hasMatch(val)) {
-                                  return 'Must start with a letter and can only contain letters, digits and - or _.';
+                                  return 'Sans espace et ne peut contenir que des lettres';
                                 }
                                 return null;
                               },
@@ -400,40 +413,6 @@ String dateString = datePicked.toString();
                               ],
                             ),
                           ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
-                            child: FlutterFlowDropDown(
-                              options: [
-                                'CNI',
-                                'Attestation',
-                                'Extrait de naissance'
-                              ],
-                              onChanged: (val) =>
-                                  setState(() => pieceSelectValue = val),
-                              width: double.infinity,
-                              height: 60,
-                              textStyle: FlutterFlowTheme.of(context).bodyText1,
-                              hintText: 'Piece d\'identité',
-                              icon: Icon(
-                                Icons.keyboard_arrow_down_rounded,
-                                color:
-                                    FlutterFlowTheme.of(context).secondaryText,
-                                size: 15,
-                              ),
-                              fillColor: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                              elevation: 2,
-                              borderColor: FlutterFlowTheme.of(context)
-                                  .primaryBackground,
-                              borderWidth: 2,
-                              borderRadius: 8,
-                              margin:
-                                  EdgeInsetsDirectional.fromSTEB(24, 4, 12, 4),
-                              hidesUnderline: true,
-                            ),
-                          ),
-
                           Card(
                             elevation: 2,
                             margin: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
@@ -443,7 +422,7 @@ String dateString = datePicked.toString();
 
                               ),
                               padding:
-                                  EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                              EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
                               width: double.infinity,
                               height: 60,
                               child:
@@ -481,6 +460,37 @@ String dateString = datePicked.toString();
                               ),
                             ),
                           ),
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                            child: FlutterFlowDropDown(
+                              options: pieceIdentitelist,
+                              onChanged: (val) =>
+                                  setState(() => pieceSelectValue = val),
+                              width: double.infinity,
+                              height: 60,
+                              textStyle: FlutterFlowTheme.of(context).bodyText1,
+                              hintText: 'Piece d\'identité',
+                              icon: Icon(
+                                Icons.keyboard_arrow_down_rounded,
+                                color:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                                size: 15,
+                              ),
+                              fillColor: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                              elevation: 2,
+                              borderColor: FlutterFlowTheme.of(context)
+                                  .primaryBackground,
+                              borderWidth: 2,
+                              borderRadius: 8,
+                              margin:
+                                  EdgeInsetsDirectional.fromSTEB(24, 4, 12, 4),
+                              hidesUnderline: true,
+                            ),
+                          ),
+
+
                           Padding(
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(16, 16, 16, 0),

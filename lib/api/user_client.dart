@@ -1,5 +1,6 @@
 import 'package:xml/xml.dart';
 
+import '../constant/const.dart';
 import '../models/api_response.dart';
 import 'soap_client.dart';
 
@@ -39,6 +40,9 @@ class UserClient {
         response.message= "Utilisateur n'existe pas";
       }
       print('Result $result');
+    }else{
+      print('Erreur :\n $response.body');
+      response.body =errorServerNotFound;
     }
     //print( ' LA REPONSE ************************ message et body et result\n ${response.message} ${response.body}');
     return response;
@@ -76,6 +80,9 @@ class UserClient {
       });
 
       response.items = items;
+    }else{
+      print('Erreur :\n $response.body');
+      response.body =errorServerNotFound;
     }
 
     print('items \n ${response.items} \n');

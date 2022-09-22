@@ -1,5 +1,6 @@
 import 'package:xml/xml.dart';
 
+import '../constant/const.dart';
 import '../models/api_response.dart';
 import '../models/producteur_model.dart';
 import 'soap_client.dart';
@@ -39,12 +40,15 @@ class ProducteurClient {
 
       if (result == "NONVALIDE") {
         response.hasError = true;
-        response.message = "Element non valide";
+        response.message = "Element non valide \n Verifier le numero de telephone";
       }else{
-        response.message ="Votre producteur a bien été créé";
+        response.message ="Votre producteur a bien été créé \n son numero est : $result";
         print('Result $result');
       }
 
+    }else{
+      print('Erreur :\n $response.body');
+      response.body =errorServerNotFound;
     }
     print( ' ****** REPONSE : ${response.message} \nbody : ${response.body} **************');
     return response;
@@ -81,6 +85,9 @@ class ProducteurClient {
       });
 
       response.items = items;
+    }else{
+      print('Erreur :\n $response.body');
+      response.body =errorServerNotFound;
     }
 
     return response;
